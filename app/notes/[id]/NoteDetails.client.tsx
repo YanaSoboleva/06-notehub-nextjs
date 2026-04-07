@@ -1,51 +1,56 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
 import { fetchNoteById } from '@/lib/api';
-import css from './NoteDetails.client.module.css';
+import css from './NoteDetails.module.css';
 
 export default function NoteDetailsClient() {
-  
   const params = useParams();
-  const id = params?.id as string;
+  const id = params.id as string;
 
-
-  const { data: note, isLoading, isError } = useQuery({
+  const { data: note, isLoading, isError, error } = useQuery({
     queryKey: ['note', id],
     queryFn: () => fetchNoteById(id),
-    enabled: !!id, 
+    refetchOnMount: false, 
+    retry: 1,
   });
 
-  
   if (isLoading) {
-    return <p>Loading, please wait...</p>;
+    return <div className={css.loader}>Завантаження деталей нотатки...</div>;
   }
 
-  if (isError || !note) {
-    return <p>Something went wrong.</p>;
-  }
-
-  // 4. Відображення розмітки, якщо нотатку знайдено
-  return (
-    <div className={css.container}>
-      <div className={css.item}>
-        <div className={css.header}>
-          <h2 className={css.title}>{note.title}</h2>
-        </div>
-        
-        <div className={css.contentBox}>
-          <p className={css.tag}>{note.tag}</p>
-          <p className={css.content}>{note.content}</p>
-          
-          {/* Виведення дати у зрозумілому форматі */}
-          {note.createdAt && (
-            <p className={css.date}>
-              Created at: {new Date(note.createdAt).toLocaleDateString()}
-            </p>
-          )}
-        </div>
+  if (isError) {
+    return (
+      <div className={css.error}>
+        Помилка: {error instanceof Error ? error.message : 'Не вдалося завантажити нотатку'}
       </div>
-    </div>
+    );
+  }
+
+  if (!note) {
+    return <div className={css.notFound}>Нотатку не знайдено</div>;
+  }
+
+  return (
+    <article className={css.container}>
+      <header className={css.header}>
+        <h1 className={css.title}>{note.title}</h1>
+        <span className={css.tag}>{note.tag}</span>
+      </header>
+      
+      <div className={css.content}>
+        <p className={css.text}>{note.content}</p>
+      </div>
+
+      <footer className={css.footer}>
+        <p className={css.date}>
+          Створено: {new Date(note.createdAt).toLocaleString()}
+        </p>
+        <p className={css.date}>
+          Оновлено: {new Date(note.updatedAt).toLocaleString()}
+        </p>
+      </footer>
+    </article>
   );
 }

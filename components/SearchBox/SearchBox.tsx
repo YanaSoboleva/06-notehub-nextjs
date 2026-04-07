@@ -1,7 +1,6 @@
 import css from './SearchBox.module.css';
 
 interface SearchBoxProps {
-  // Типізуємо пропс onChange як функцію, що приймає подію зміни інпуту
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string;
 }

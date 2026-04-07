@@ -4,7 +4,6 @@ import ReactPaginateModule from "react-paginate";
 import type { ReactPaginateProps } from "react-paginate";
 import css from "./Pagination.module.css";
 
-// Спеціальний хак для сумісності Vite + ReactPaginate
 type ModuleWithDefault<T> = { default: T };
 
 const ReactPaginate = (
@@ -30,7 +29,6 @@ export default function Pagination({ pageCount, onPageChange, forcePage }: Pagin
       onPageChange={(data) => onPageChange(data.selected)}
       forcePage={forcePage}
       
-      // Стилі (переконайтеся, що вони є в CSS модулі)
       containerClassName={css.pagination}
       pageClassName={css.pageItem}
       pageLinkClassName={css.pageLink}
