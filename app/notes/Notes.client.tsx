@@ -8,7 +8,7 @@ import  SearchBox  from '@/components/SearchBox/SearchBox';
 import  Pagination  from '@/components/Pagination/Pagination';
 import  Modal  from '@/components/Modal/Modal';
 import  NoteForm  from '@/components/NoteForm/NoteForm';
-// import css from './Notes.client.module.css';
+import css from './NotesClient/Notes.client.module.css';
 
 export default function NotesClient() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -68,13 +68,13 @@ export default function NotesClient() {
         <>
           <NoteList notes={data.notes} />
           
-          {data.totalPages > 1 && (
-            <Pagination
-              current={currentPage}
-              total={data.totalPages}
-              onChange={handlePageChange}
-            />
-          )}
+          {data && data.totalPages > 1 && (
+          <Pagination
+           pageCount={data.totalPages} // Було total, має бути pageCount
+           onPageChange={(selected) => handlePageChange(selected + 1)} // Бібліотека react-paginate використовує 0-базовий індекс
+           forcePage={currentPage - 1} // Синхронізація поточної сторінки
+         />
+         )}
         </>
       )}
 
