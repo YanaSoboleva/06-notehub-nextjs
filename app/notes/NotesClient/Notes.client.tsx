@@ -8,7 +8,7 @@ import  SearchBox  from '@/components/SearchBox/SearchBox';
 import  Pagination  from '@/components/Pagination/Pagination';
 import  Modal  from '@/components/Modal/Modal';
 import  NoteForm  from '@/components/NoteForm/NoteForm';
-import css from './NotesClient/Notes.client.module.css';
+import css from './Notes.client.module.css';
 
 export default function NotesClient() {
   const [currentPage, setCurrentPage] = useState(1);
