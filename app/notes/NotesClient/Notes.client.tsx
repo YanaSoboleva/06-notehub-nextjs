@@ -3,14 +3,12 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchNotes } from '@/lib/api';
-
-// Імпортуйте компоненти як default (без фігурних дужок), якщо вони так експортовані
 import NoteList from '@/components/NoteList/NoteList';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import NoteForm from '@/components/NoteForm/NoteForm';
 import Modal from '@/components/Modal/Modal';
 
-import css from './NotesPage.module.css';
+import css from './Notes.client.module.css';
 
 export default function NotesClient() {
   const [filter, setFilter] = useState('');
